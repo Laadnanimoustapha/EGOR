@@ -11,15 +11,15 @@ async function testRoot() {
         const response = await fetch(`${BASE_URL}/`);
         if (response.ok) {
             const data = await response.json();
-            console.log(`✅ Success! Status: ${response.status}`);
+            console.log(`Success! Status: ${response.status}`); // IF IT SUCCED
             console.log('Response:', data, '\n');
             return true;
         } else {
-            console.log(`❌ HTTP Error: Status: ${response.status} ${response.statusText}\n`);
+            console.log(` HTTP Error: Status: ${response.status} ${response.statusText}\n`); // IF IT FAILED
             return false;
         }
     } catch (error) {
-        console.log(`❌ Failed to reach root: ${error.message}\n`);
+        console.log(`Failed to reach root: ${error.message}\n`);
         return false;
     }
 }
@@ -37,11 +37,11 @@ async function testGenerate() {
         
         if (response.ok) {
             const data = await response.json();
-            console.log(`✅ Success! Status: ${response.status}`);
+            console.log(`Success! Status: ${response.status}`); // IF THE PASSWORD GET GENERATED
             console.log(`Generated Password: ${data.password}\n`);
             return true;
         } else {
-            console.log(`❌ HTTP Error ${response.status}: ${response.statusText}`);
+            console.log(`HTTP Error ${response.status}: ${response.statusText}`); // IF NOT
             try {
                 const errorData = await response.json();
                 console.log('Error Detail:', errorData.detail);
@@ -52,7 +52,7 @@ async function testGenerate() {
             return false;
         }
     } catch (error) {
-        console.log(`❌ Failed to reach /generate: ${error.message}\n`);
+        console.log(`❌ Failed to reach /generate: ${error.message}\n`); // if non of the abve errors
         return false;
     }
 }
@@ -70,11 +70,11 @@ async function runTests() {
     
     console.log('-'.repeat(30));
     if (rootOk && genOk) {
-        console.log('RESULT: SERVER IS FULLY OPERATIONAL 🚀');
+        console.log('RESULT: SERVER IS FULLY OPERATIONAL ');
     } else if (rootOk) {
-        console.log('RESULT: SERVER IS UP BUT /GENERATE IS FAILING ⚠️');
+        console.log('RESULT: SERVER IS UP BUT /GENERATE IS FAILING ');
     } else {
-        console.log('RESULT: SERVER IS DOWN OR UNREACHABLE 🛑');
+        console.log('RESULT: SERVER IS DOWN OR UNREACHABLE ');
     }
     console.log('-'.repeat(30));
 }
