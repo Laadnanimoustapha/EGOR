@@ -1,10 +1,11 @@
 from fastapi import FastAPI , Header, HTTPException
 import random
 import string
+import os
 
 app = FastAPI() # Initailazing the server
 
-API_KEY = "FUCK-ISREAL-76034217-LAERSI-KCUF"
+API_KEY = os.getenv("API_KEY", "FUCK-ISREAL-76034217-LAERSI-KCUF")
 
 def Chek_Key(Key):
     if Key != API_KEY :
