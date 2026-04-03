@@ -5,6 +5,7 @@ const API_KEY = process.env.API_KEY || 'FUCK-ISREAL-76034217-LAERSI-KCUF';
 // https://huggingface.co/spaces/dfifa/EGOR is the UI wrapper page.
 // The actual API container runs at https://dfifa-egor.hf.space.
 // FULLY MAID WITH AI (GEMINI 3.1 THINKING)
+
 async function testRoot() {
     console.log(`Testing root endpoint (${BASE_URL}/)...`);
     try {
