@@ -5,7 +5,7 @@ async function GeneratePassword() {
     const length = document.getElementById("length").value;
 
     try {
-        const response = await fetch(`${API_URL}?length=${length}`, {
+        const response = await fetch(`${API_URL}/generate?length=${length}`, {
             method: "GET",
             headers: {
                 "x-api-key": API_KEY
