@@ -10,11 +10,13 @@
     <div class="container">
         <h1> EGOR - PASSWORD GENERATOR</h1>
 
+        <input type="number" id="length" min="4" max="64" value="12" placeholder="Length">
+        
         <button onclick="GeneratePassword()">Generate</button>
 
         <input type="text" id="result" readonly placeholder="Your password...">
 
-        <button onclick="copypassword()">Copy</button>
+        <button onclick="copyPassword()">Copy</button>
     </div>
 <script src="html/main.js"></script>
 </body>
