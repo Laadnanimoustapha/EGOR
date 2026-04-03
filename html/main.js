@@ -1,6 +1,8 @@
 const API_URL = "https://dfifa-egor.hf.space";
 const API_KEY = "FUCK-ISREAL-76034217-LAERSI-KCUF";
 
+// 90% MAID BY LAADNANI  10% BY AI (GEMINI 3.1 THINKING)
+
 async function GeneratePassword() {
     const length = document.getElementById("length").value;
 

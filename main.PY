@@ -3,6 +3,8 @@ import random
 import string
 import os
 
+# FULLY MAID BY LAADNANI 
+
 app = FastAPI() # Initailazing the server
 
 API_KEY = os.getenv("API_KEY", "FUCK-ISREAL-76034217-LAERSI-KCUF")
