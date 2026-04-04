@@ -1,7 +1,7 @@
 // 100% ai
 
 //const API_URL = "http://127.0.0.1:8000/generate?length=12";    if tested localy 
-const API_URL = "https://dfifa-egor.hf.space";
+const API_URL = "https://dfifa-egor.hf.space/generate?length=12";
 const API_KEY = "FUCK-ISREAL-76034217-LAERSI-KCUF";
 const NUM_REQUESTS = 7; // The limit is 5 requests per 60 seconds, so 7 will trigger the limit
 
