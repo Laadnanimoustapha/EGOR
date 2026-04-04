@@ -3,17 +3,11 @@ import random
 import string
 import os
 from RateLimit_Manager import check_API_rate_limit
+from database import check_api_key_db
 
 # FULLY MAID BY LAADNANI 
 
 app = FastAPI() # Initailazing the server
-
-API_KEY = os.getenv("API_KEY", "FUCK-ISREAL-76034217-LAERSI-KCUF")
-
-# chek if the API KEY IS TRUE
-def Chek_Key(Key):
-    if Key != API_KEY :
-        raise HTTPException(status_code = 401 , detail = "YOUR API KEY IS INVALID ⚠" )
 
 # MAIN FUNCTIN FOR GENERATING PASSWORD
 def gnreat_password(length = 12):
@@ -27,6 +21,13 @@ def home_Page() :
 
 @app.get("/generate")
 def generate(length: int = 12 , x_api_key: str = Header(...)):
-    Chek_Key(x_api_key)
+    
+    #CHECK IF API KEY IS IN THE DATABASE
+    if not check_api_key_db(x_api_key):
+        raise HTTPException(
+            status_code = 401,
+            detail = "INVALID API KEY ⚠"
+        )
+
     check_API_rate_limit(x_api_key)
     return {"password" : gnreat_password(length)}

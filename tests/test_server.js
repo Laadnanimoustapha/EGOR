@@ -1,5 +1,8 @@
+//const BASE_URL = "http://127.0.0.1:8000"; // LOCAL
 const BASE_URL = 'https://dfifa-egor.hf.space'; 
-const API_KEY = process.env.API_KEY || 'FUCK-ISREAL-76034217-LAERSI-KCUF';
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') }); 
+const API_KEY = process.env.EGOR_API_KEY || "FUCK-ISREAL-76034217-LAERSI-KCUF";
 
 // Note: We use the direct Space URL for API calls. 
 // https://huggingface.co/spaces/dfifa/EGOR is the UI wrapper page.
