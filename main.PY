@@ -2,6 +2,7 @@ from fastapi import FastAPI , Header, HTTPException
 import random
 import string
 import os
+from RateLimit_Manager import check_API_rate_limit
 
 # FULLY MAID BY LAADNANI 
 
@@ -27,4 +28,5 @@ def home_Page() :
 @app.get("/generate")
 def generate(length: int = 12 , x_api_key: str = Header(...)):
     Chek_Key(x_api_key)
+    check_API_rate_limit(x_api_key)
     return {"password" : gnreat_password(length)}
