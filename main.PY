@@ -5,7 +5,7 @@ import os
 import asyncio
 from RateLimit_Manager import check_API_rate_limit
 from database import check_api_key_db
-from EGOR_BANNER import BANNER
+from EGOR_PAGE import HTML_PAGE
 
 # FULLY MAID BY LAADNANI 
 
@@ -18,7 +18,7 @@ async def fake_request(fake_api = "123456-limkoe-kuasu"): #cheking evry 10 secon
         try :
             check_api_key_db(fake_api)
         except Exception as e:
-            print(f"EGOR_DB RUN INTo THISE :{e}")
+            print(f"EGOR_DB RUN INTO THISE :{e}")
         await asyncio.sleep(10)
 
 # MAIN FUNCTIN FOR GENERATING PASSWORD
@@ -34,7 +34,7 @@ async def statrup_events():
 #SHOWING MAIN PAGES 
 @app.get('/')
 def home_Page() :
-    return {"message" : BANNER}
+    return HTML_PAGE
 
 @app.get("/generate")
 def generate(length: int = 12 , x_api_key: str = Header(...)):
