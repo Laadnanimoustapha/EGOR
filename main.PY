@@ -5,6 +5,7 @@ import os
 import asyncio
 from RateLimit_Manager import check_API_rate_limit
 from database import check_api_key_db
+from EGOR_BANNER import BANNER
 
 # FULLY MAID BY LAADNANI 
 
@@ -30,10 +31,10 @@ def gnreat_password(length = 12):
 async def statrup_events():
     asyncio.create_task(fake_request())
 
-#SHOWING PAGES 
+#SHOWING MAIN PAGES 
 @app.get('/')
 def home_Page() :
-    return {"message" : "welcom to EGOR"}
+    return {"message" : BANNER}
 
 @app.get("/generate")
 def generate(length: int = 12 , x_api_key: str = Header(...)):
