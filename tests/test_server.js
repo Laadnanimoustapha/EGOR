@@ -41,8 +41,9 @@ async function testGenerate() {
         
         if (response.ok) {
             const data = await response.json();
-            console.log(`Success! Status: ${response.status}`); // IF THE PASSWORD GET GENERATED
-            console.log(`Generated Password: ${data.password}\n`);
+            console.log(`Success! Status: ${response.status} (${data.status})`); // IF THE PASSWORD GET GENERATED
+            const password = data.data && data.data.password ? data.data.password : undefined;
+            console.log(`Generated Password: ${password}\n`);
             return true;
         } else {
             console.log(`HTTP Error ${response.status}: ${response.statusText}`); // IF NOT

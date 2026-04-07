@@ -21,7 +21,8 @@ async function testRateLimit() {
             const data = await response.json().catch(() => ({}));
 
             if (response.status === 200) {
-                console.log(`Request ${i}: ✅ Success (Status ${response.status}) ->`, data);
+                const password = data.data && data.data.password ? data.data.password : JSON.stringify(data);
+                console.log(`Request ${i}: ✅ Success (Status ${response.status}) -> Password: ${password}`);
             } else if (response.status === 429) {
                 console.log(`Request ${i}: ⏳ Rate Limited (Status ${response.status}) ->`, data);
             } else {
