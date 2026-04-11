@@ -1,12 +1,13 @@
 __pycache__/
 node_modules/
 package-lock.json
+package.json
+.agents
+improvements
 
 # Ignore everything in the tests folder
-tests/
+
 
 # Ignore environment variables
 .env
 *.env.local
-
-*.csv

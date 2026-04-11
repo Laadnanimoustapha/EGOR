@@ -1,8 +1,17 @@
 // 100% ai
 
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env.local') });
+
 //const API_URL = "http://127.0.0.1:8000/generate?length=12";    if tested localy 
 const API_URL = "https://dfifa-egor.hf.space/generate?length=12";
-const API_KEY = "FUCK-ISREAL-76034217-LAERSI-KCUF";
+const API_KEY = process.env.EGOR_API_KEY;
+const HF_TOKEN = process.env.HF_TOKEN;
+
+if (!API_KEY || !HF_TOKEN) {
+    console.error("❌ Missing EGOR_API_KEY or HF_TOKEN in tests/.env.local");
+    process.exit(1);
+}
 const NUM_REQUESTS = 7; // The limit is 5 requests per 60 seconds, so 7 will trigger the limit
 
 async function testRateLimit() {
@@ -13,7 +22,8 @@ async function testRateLimit() {
             const response = await fetch(API_URL, {
                 method: "GET",
                 headers: {
-                    "x-api-key": API_KEY
+                    "x-api-key": API_KEY,
+                    "Authorization": `Bearer ${HF_TOKEN}`
                 }
             });
 
