@@ -13,63 +13,48 @@ This is the minimal setup for the EGOR application.
 
 ## Version 1 - 2026-04-03
 
-![Screenshot Version 1](assests/download%20(1).png)
+![Screenshot Version 1](assets/V-1.2.0.png)
 
-## System Workflow Diagram
+## Version 2 - 2026-04-11
+
+![Screenshot Version 1](assets/V-1.3.0.png)
+
+## System Architecture Diagram
 
 ```mermaid
-flowchart TD
-    %% Define Styles
-    classDef client fill:#3b82f6,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef server fill:#10b981,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef database fill:#f59e0b,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef redis fill:#ef4444,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef ai fill:#8b5cf6,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+flowchart LR
+    classDef client fill:#1d4ed8,stroke:#1e3a8a,stroke-width:1.5px,color:#fff;
+    classDef app fill:#0f766e,stroke:#134e4a,stroke-width:1.5px,color:#fff;
+    classDef security fill:#b45309,stroke:#78350f,stroke-width:1.5px,color:#fff;
+    classDef data fill:#7c3aed,stroke:#4c1d95,stroke-width:1.5px,color:#fff;
+    classDef error fill:#dc2626,stroke:#7f1d1d,stroke-width:1.5px,color:#fff;
 
-    %% Nodes
-    Client((Frontend Clients)):::client
-    FastAPI[FastAPI Server <br> uvicorn main:app]:::server
-    
-    subgraph Security & Limits
-        Auth{Check API Key}
-        RateLimit{Upstash Redis <br> Rate Limiter}:::redis
-    end
+    Client[Frontend Client]:::client --> API[FastAPI App<br/>`uvicorn main:app`]:::app
 
-    subgraph Endpoints
-        EP_Gen[/ `/generate` /]
-        EP_Sum[/ `/api/summarize` /]
-        EP_Health[/ `/health` /]
-    end
+    API --> KeyCheck{API key valid?}:::security
+    KeyCheck -->|No| Unauthorized[401 Unauthorized]:::error
+    KeyCheck -->|Yes| LimitCheck{Rate limit ok?}:::security
 
-    DB[(MySQL/Postgres DB <br> via SQLAlchemy)]:::database
-    
-    subgraph AI Summarizer Waterfall
-        AI_Gemini[Gemini]:::ai
-        AI_Groq[Groq]:::ai
-        AI_HF[HuggingFace Models]:::ai
-    end
+    LimitCheck -->|No| TooMany[429 Too Many Requests]:::error
+    LimitCheck -->|Yes| Route{Endpoint}:::app
 
-    %% Connections
-    Client -->|HTTPS Request| FastAPI
-    FastAPI --> Auth
-    Auth -->|Queries API Key| DB
-    Auth -->|Invalid| 401[401 Unauthorized]
-    Auth -->|Valid| RateLimit
-    
-    RateLimit -->|Check Limit 60s window| RateLimit
-    RateLimit -->|Exceeded Limit| 429[429 Too Many Requests]
-    RateLimit -->|Valid Request| Endpoints
-    
-    EP_Gen -->|Returns| Password[Random Password]
-    EP_Health -->|Pings| DB
-    
-    EP_Sum --> AI_Gemini
-    AI_Gemini -->|Fallback if fails| AI_Groq
-    AI_Groq -->|Fallback if fails| AI_HF
+    DB[(MySQL/Postgres<br/>SQLAlchemy)]:::data
+    Redis[(Upstash Redis<br/>Rate limiter)]:::data
 
-    Password -.-> Client
-    AI_Gemini -.-> Client
-    AI_Groq -.-> Client
-    AI_HF -.-> Client
-    EP_Health -.-> Client
+    KeyCheck --> DB
+    LimitCheck --> Redis
+
+    Route --> Gen[`/generate`]:::app
+    Route --> Sum[`/api/summarize`]:::app
+    Route --> Health[`/health`]:::app
+
+    Gen --> Password[Generated password]:::client
+    Health --> HealthOK[Service + DB status]:::client
+
+    Sum --> Gemini[Gemini]:::data
+    Gemini -->|fallback| Groq[Groq]:::data
+    Groq -->|fallback| HF[HuggingFace]:::data
+    Gemini --> Summary[Summary response]:::client
+    Groq --> Summary
+    HF --> Summary
 ```

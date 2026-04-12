@@ -1,4 +1,3 @@
-from sqlalchemy import engine
 from fastapi import FastAPI , Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
@@ -16,14 +15,14 @@ class SummarizeRequest(BaseModel):
     text:str
 
 # Initailazing the server
-app = FastAPI(title="EGOR",description="main server by me ladnani",version="1.2.0",docs_url=None,redoc_url =None) 
+app = FastAPI(title="EGOR",description="main server by me ladnani",version="1.3.0",docs_url=None,redoc_url =None) 
 
 #allow requestes frome frontends
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://hrms-two-iota.vercel.app"], # will add new urls inchalaah in the future 
+    allow_origins=["*"], # will add new urls inchalaah in the future 
     allow_methods=["GET","POST"],
-    allow_headers=["x_api_key"],
+    allow_headers=["*"],
 )
 
 # check length f the passwored requested
@@ -44,7 +43,7 @@ def generate_password(length = 12):
 #SHOWING MAIN PAGES 
 @app.get('/')
 def home_Page() :
-    return HTML_PAGE
+    return HTML_PAGE()
 
 @app.get("/generate")
 def generate(length: int = 12 , x_api_key: str = Header(...)):
